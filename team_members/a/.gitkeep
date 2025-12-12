@@ -1,0 +1,31 @@
+git remote -v
+git remote add upstream https://github.com/OH-BJ/Bidding-Mate.git
+git remote -v
+
+git fetch origin
+git fetch upstream
+
+git checkout main
+git pull upstream main
+
+# 깃 상태 확인
+git status 
+git add 넣을 파일
+git commit -m "커밋 메세지"
+git push origin main
+
+# upstream(원본) 의 최신 커밋을 모두 가져옵니다.
+git fetch upstream
+
+git add .\team_members\a\.gitkeep
+
+2️⃣ 원본(upstream) feature/arum_a 브랜치에 직접 푸시
+방법 A – 현재 브랜치(예: main)를 그대로 푸시
+powershell
+# 현재 브랜치(main)의 HEAD 를 upstream/feature/arum_a 로 강제 푸시
+git push upstream HEAD:feature/arum_a
+방법 B – 명시적으로 main을 지정
+powershell
+git push upstream main:feature/arum_a
+HEAD 혹은 main 은 로컬에 있는 현재 커밋을 의미합니다.
+feature/arum_a 는 원본 저장소에 새로운(또는 기존) 브랜치 이름이며, 원격에 같은 이름이 없으면 자동으로 생성됩니다.
