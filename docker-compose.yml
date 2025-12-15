@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # 벡터 DB
+  vector-db:
+    image: chromadb/chroma:latest
+    container_name: rfp-vector-db
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./chroma_data:/chroma/chroma
+    networks:
+      - bidmate-net
+
+  # EDA 및 전처리
+  eda-worker:
+    build: 
+      context: ./eda
+      dockerfile: Dockerfile
+    container_name: rfp-eda-worker
+    volumes:
+      - ./eda:/app       # 코드 수정하면 바로 반영됨
+      - ./data:/app/data # 데이터 폴더 연결
+    ports:
+      - "8888:8888"      # 쥬피터 노트북 접속 통로
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    # 쥬피터 노트북 실행 (비밀번호 없이 바로 접속)
+    command: jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token=''
+    networks:
+      - bidmate-net
+
+  # RAG 웹 서비스 (Streamlit 화면용)
+  rag-app:
+    build: 
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: rfp-rag-app
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    depends_on:
+      - vector-db
+    volumes:
+      - ./app:/app  # 코드 수정하면 바로 반영됨
+    environment:
+      - DB_HOST=vector-db
+    networks:
+      - bidmate-net
+
+networks:
+  bidmate-net:
+    driver: bridge

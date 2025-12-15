@@ -1,23 +1,36 @@
-
-# 환경 변수 및 키 파일 (절대 올리지 말 것)
+# 보안 파일
 .env
 .env.*
 keys/
 *.key
 
-# 파이썬 자동 생성 파일
+# 파이썬 & 주피터 노트북 자동 생성 파일
 __pycache__/
 *.pyc
 venv/
 .venv/
+.ipynb_checkpoints/
+
+# 로컬 데이터베이스
+chroma_data/
 
 # 대용량 데이터 (GitHub 용량 제한 방지)
 data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
+
+# 특정 확장자 무시
 *.hwp
 *.pdf
+*.csv
+*.xlsx
 
-# 시스템 파일
+# 시스템 파일 & IDE 설정
 .DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# 개인 연습용 폴더 숨기기
+team_members/
