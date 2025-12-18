@@ -90,3 +90,46 @@ pytorch/pytorch   2.6.0-cuda12.4-cudnn9-runtime   40472de84a38   10 months ago  
 docker run myapp
 
 docker ps -a
+
+cd Bidding-Mate
+git status
+
+git config --global user.email "arumshin.dev@gmail.com"
+git config --global user.name "arum"
+
+# 깃 설정 확인
+git config --global --list
+
+git status
+git add .
+git commit -m "Add docker environment"
+git push
+
+
+# 도커 폴더로 이동
+cd Bidding-Mate/team_members/a/openai_docker
+
+# 도커 이미지안에 수정한 파일 반영하려면 다시 이미지 만들어야함
+docker build -t myapp .
+
+# 컨테이너 안에 들어가서 직접 파일들이 잘 들어갔는지 확인
+docker run -it myapp bash
+ls
+ls /work
+
+
+# 실행
+docker run myapp
+
+
+docker build -t myapp .
+docker run myapp 
+docker run -e OPENAI_API_KEY=sk-xxxx myapp
+docker run -e OPENAI_API_KEY=sk-p~ myapp
+
+cd /home/areum/Bidding-Mate
+docker build -f team_members/a/openai_docker/Dockerfile -t myapp .
+
+
+cd Bidding-Mate/team_members/a/openai_docker
+docker run myapp 
