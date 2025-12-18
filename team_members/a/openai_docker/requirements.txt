@@ -1,0 +1,21 @@
+# PyTorch (CUDA 12.4)
+# torch==2.6.0+cu124
+# torchvision==0.21.0+cu124
+# torchaudio==2.6.0+cu124
+# --extra-index-url https://download.pytorch.org/whl/cu124
+
+# Transformers
+transformers==4.57.3
+
+# Data tools
+pandas
+numpy
+matplotlib
+scikit-learn
+openpyxl
+tqdm
+ipywidgets
+
+# OpenAI API (예시)
+openai==1.54.3
+python-dotenv==1.0.1
