@@ -1,0 +1,33 @@
+# PyTorch (CUDA 12.4)
+# torch==2.6.0+cu124
+# torchvision==0.21.0+cu124
+# torchaudio==2.6.0+cu124
+# --extra-index-url https://download.pytorch.org/whl/cu124
+
+# Transformers
+transformers==4.57.3
+
+# Data tools
+pandas
+numpy
+matplotlib
+scikit-learn
+openpyxl
+tqdm
+ipywidgets
+
+# OpenAI API (예시)
+openai
+python-dotenv
+typing_extensions
+# 자동 인코딩 감지(chardet 사용)
+chardet
+
+# pdf 텍스트 추출
+pdfplumber
+pdfminer.six
+charset_normalizer
+
+pymupdf
+
+httpx>=0.28.0

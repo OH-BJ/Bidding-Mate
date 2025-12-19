@@ -1,0 +1,135 @@
+# gcp docker 
+# 폴더 구조 확인 
+ls
+
+# 깃 설치 확인
+(myenv) areum@codeit-ai5-4team:~$ git --version
+git version 2.43.0
+
+
+# 폴더 통째로 삭제 후 git clone
+rm -rf Bidding-Mate
+git clone https://github.com/팀레포주소.git
+rm -rf Bidding-Mate
+git clone https://github.com/arumshin-dev/Bidding-Mate.git
+
+# 폴더안에 파일들 이동하고 
+mv /home/areum/raw/* /home/areum/Bidding-Mate/data/raw/
+
+#개인적으로 만든 파일, 가상환경 삭제
+rm -rf myenv
+rm data_list.csv
+rm gpt5.ipynb
+rm hwp_table_rag.ipynb
+rm untitled1.txt
+rm -rf raw
+
+# 도커 설치 확인
+(myenv) areum@codeit-ai5-4team:~$ docker --version
+Command 'docker' not found, but can be installed with:
+snap install docker         # version 28.4.0, or
+apt  install docker.io      # version 28.2.2-0ubuntu1~24.04.1
+apt  install podman-docker  # version 4.9.3+ds1-1ubuntu0.2
+See 'snap info docker' for additional versions.
+
+# root 권한 확인
+sudo whoami
+
+root → Docker 설치 가능
+areum is not in the sudoers file → Docker 설치 불가
+
+# 도커 설치
+sudo apt install docker.io
+# 도커 설치 확인
+docker --version
+# Docker 데몬 실행 여부 확인:
+sudo systemctl status docker
+만약 inactive라면:
+
+# 도커 실행
+sudo systemctl start docker
+Docker가 정상 작동하면:
+
+# 도커 실행
+docker run hello-world
+# 도커 삭제
+sudo docker rmi hello-world
+
+# 도커 이미지 확인
+docker ps -a
+# 도커 그룹에 현재 사용자 추가 
+sudo usermod -aG docker $user
+
+# 도커 끄기
+sudo systemctl stop docker
+# 켜기
+sudo systemctl start docker
+# 재시작
+sudo systemctl restart docker
+# 상태 확인
+sudo systemctl status docker
+
+# 도커 그룹에 잘 들어갔는지 확인
+groups
+
+# 주피터 서버 재시작
+pkill -u areum
+
+# 이미지 빌드
+sudo docker build -t myapp ./Bidding-Mate/team_members/a/openai_docker
+# docker build -f Dockerfile.dev -t myapp .
+
+# 빌드된 이미지 확인
+areum@codeit-ai5-4team:~/Bidding-Mate$ docker images
+REPOSITORY        TAG                             IMAGE ID       CREATED         SIZE
+myapp             latest                          1bd745f524e2   2 minutes ago   6.57GB
+hello-world       latest                          1b44b5a3e06a   4 months ago    10.1kB
+pytorch/pytorch   2.6.0-cuda12.4-cudnn9-runtime   40472de84a38   10 months ago   6.06GB
+
+# 도커 실행
+docker run myapp
+
+docker ps -a
+
+cd Bidding-Mate
+git status
+
+git config --global user.email "arumshin.dev@gmail.com"
+git config --global user.name "arum"
+
+# 깃 설정 확인
+git config --global --list
+
+git status
+git add .
+git commit -m "Add docker environment"
+git push
+
+
+# 도커 폴더로 이동
+cd Bidding-Mate/team_members/a/openai_docker
+
+# 도커 이미지안에 수정한 파일 반영하려면 다시 이미지 만들어야함
+docker build -t myapp .
+
+# 컨테이너 안에 들어가서 직접 파일들이 잘 들어갔는지 확인
+docker run -it myapp bash
+ls
+ls /work
+
+
+# 실행
+docker run myapp
+
+
+docker build -t myapp .
+docker run myapp 
+docker run -e OPENAI_API_KEY=sk-xxxx myapp
+docker run -e OPENAI_API_KEY=sk-p~ myapp
+
+cd /home/areum/Bidding-Mate
+docker build -f team_members/a/openai_docker/Dockerfile -t myapp .
+
+
+cd Bidding-Mate/team_members/a/openai_docker
+docker run myapp 
