@@ -9,7 +9,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langgraph.graph import StateGraph, END
 
-
+from prompt import ROUTER_PROMPT, DRAFT_PROMPT, SELF_CHECK_PROMPT
 # 환경변수 로드
 load_dotenv()
 
@@ -48,13 +48,8 @@ class BiddingAgent:
 
     def _route_question(self, state):
         print(f"---의도 파악 중: {state['question']}---")
-        router_prompt = ChatPromptTemplate.from_template(
-            "당신은 질문의 의도를 분류하는 라우터입니다.\n"
-            "질문이 공공 입찰, 사업 공고, 제안서 작성 등 '사업 관련 질문'이면 'bid'라고 답하세요.\n"
-            "그 외의 일상적인 질문이나 잡담(음식, 연예, 일반 상식 등)이면 'off-topic'이라고 답하세요.\n\n"
-            "질문: {question}\n"
-            "답변(한 단어):"
-        )
+        router_prompt = ChatPromptTemplate.from_template(ROUTER_PROMPT)
+        
         chain = router_prompt | self.llm | StrOutputParser()
         category = chain.invoke({"question": state['question']}).lower()
         
@@ -82,34 +77,15 @@ class BiddingAgent:
         question = state['question']
         context = "\n\n".join(state['context'])
         
-        prompt = ChatPromptTemplate.from_template(
-            """
-            당신은 공공 입찰 및 사업 공고 분석 전문가입니다. 
-            당신의 임무는 오로지 제공된 [참고 문서]의 내용을 바탕으로 질문에 답하는 것입니다.
-
-            [엄격 준수 지침]
-            1. 주제 제한: 질문이 공공 입찰, 사업 내용, 제안서 작성 등 본 사업과 관련 없는 내용(예: 일상 대화, 음식 추천, 일반 상식 등)일 경우, 
-               "죄송합니다. 저는 공고문 분석 전문가로서 해당 질문에 대해서는 답변을 드릴 수 없습니다."라고만 답변하세요.
-            
-            2. 근거 기반 답변: 반드시 제공된 [참고 문서]에 명시된 사실만 답변하세요. 
-            
-            3. 정보 부재 시: 질문이 사업과 관련은 있지만 [참고 문서]에 관련 내용이 없는 경우, 
-               "제공된 문서에서 관련 정보를 찾을 수 없습니다."라고 답변하세요.
-
-            4. 사업명 일치 확인: 질문에서 언급한 '사업명'과 [참고 문서]의 '사업명'이 다를 경우, 
-                해당 문서는 무시하고 "관련 정보를 찾을 수 없습니다"라고 답하세요.
-
-            [참고 문서]
-            {context}
-            
-            질문: {question}
-            답변:
-            """
-        )
+        draft_prompt = ChatPromptTemplate.from_template(DRAFT_PROMPT)
+        check_prompt = ChatPromptTemplate.from_template(SELF_CHECK_PROMPT)
         
-        chain = prompt | self.llm | StrOutputParser()
-        response = chain.invoke({"context": context, "question": question})
-        return {"answer": response}
+        draft_chain = draft_prompt | self.llm | StrOutputParser()
+        check_chain = check_prompt | self.llm | StrOutputParser()
+        
+        draft_response = draft_chain.invoke({"context": context, "question": question})
+        final_response = check_chain.invoke({"context": context, "question": question, "prompt": draft_response})
+        return {"answer": final_response}
 
     def _rewrite_query(self, state):
         """잡담이거나 검색 실패 시 처리"""
