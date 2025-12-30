@@ -9,7 +9,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langgraph.graph import StateGraph, END
 
-from prompt import ROUTER_PROMPT, DRAFT_PROMPT, SELF_CHECK_PROMPT
+from prompt import ROUTER_PROMPT, PROMPT
 # 환경변수 로드
 load_dotenv()
 
@@ -77,15 +77,13 @@ class BiddingAgent:
         question = state['question']
         context = "\n\n".join(state['context'])
         
-        draft_prompt = ChatPromptTemplate.from_template(DRAFT_PROMPT)
-        check_prompt = ChatPromptTemplate.from_template(SELF_CHECK_PROMPT)
+        prompt = ChatPromptTemplate.from_template(PROMPT)
         
-        draft_chain = draft_prompt | self.llm | StrOutputParser()
-        check_chain = check_prompt | self.llm | StrOutputParser()
-        
-        draft_response = draft_chain.invoke({"context": context, "question": question})
-        final_response = check_chain.invoke({"context": context, "question": question, "prompt": draft_response})
-        return {"answer": final_response}
+        chain = prompt | self.llm | StrOutputParser()
+
+        response = chain.invoke({"context": context, "question": question})
+
+        return {"answer": response}
 
     def _rewrite_query(self, state):
         """잡담이거나 검색 실패 시 처리"""

@@ -1,4 +1,5 @@
 import os
+import json
 from dotenv import load_dotenv
 from rag_core import BiddingAgent
 from datasets import Dataset
@@ -43,26 +44,8 @@ judge_embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
 # 4. 테스트 데이터
 # 이곳에 테스트 질문과 답변 넣기
-test_data = [
-    # 1. [예산]
-    {
-        "question": "벤처확인종합관리시스템 기능 고도화 용역사업의 소요 예산은 얼마야?",
-        "ground_truth": "352,000,000원(부가가치세 포함)입니다."
-    },
-
-    # 2. [기간]
-    {
-        "question": "벤처확인종합관리시스템 기능 고도화 용역사업의 사업 기간은 어떻게 돼?",
-        "ground_truth": "계약일로부터 150일입니다."
-    },
-
-    # 3. [평가]
-    {
-        "question": "벤처확인종합관리시스템 기능 고도화 용역사업의 제안서 평가 방법과 배점 기준을 알려줘.",
-        "ground_truth": "기술평가 90%와 가격평가 10%를 합산하여 종합평가점수를 산출합니다."
-    }
-
-]
+with open("qna.json", "r", encoding="utf-8") as f:
+    test_data = json.load(f)
 
 print("시험을 치고 있습니다...")
 
@@ -71,12 +54,13 @@ answers = []
 contexts = []
 ground_truths = []
 
-for item in test_data:
-    result = rag_system.ask_with_context(item["question"])
-    questions.append(result["question"])
+for question, gt in zip(test_data["question"], test_data["ground_truth"]):
+    result = rag_system.ask_with_context(question)
+
+    questions.append(question)
     answers.append(result["answer"])
     contexts.append(result["contexts"])
-    ground_truths.append(item["ground_truth"])
+    ground_truths.append(gt)
 
 # 5. 데이터셋 변환
 data = {
