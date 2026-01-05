@@ -124,8 +124,8 @@ docker-compose exec app python db_maker.py
 
 | 이름 | 협업 일지 링크 |
 | :--- | :--- |
-| **오병주** | [🔗 블로그/노션 링크](https://www.notion.so/1-15-2df657925cde80a6b81fd8ab6c1fcc47?source=copy_link) |
-| **김소희** | [🔗 블로그/노션 링크](https://team1-blog-url.com) |
-| **손성경** | [🔗 블로그/노션 링크](https://team1-blog-url.com) |
-| **신아름** | [🔗 블로그/노션 링크](https://team3-blog-url.com) |
-| **최지혁** | [🔗 블로그/노션 링크](https://team3-blog-url.com) |
+| **오병주** | [블로그/노션 링크](https://www.notion.so/1-15-2df657925cde80a6b81fd8ab6c1fcc47?source=copy_link) |
+| **김소희** | [블로그/노션 링크](https://team1-blog-url.com) |
+| **손성경** | [블로그/노션 링크](https://team1-blog-url.com) |
+| **신아름** | [블로그/노션 링크](https://team3-blog-url.com) |
+| **최지혁** | [블로그/노션 링크](https://team3-blog-url.com) |
