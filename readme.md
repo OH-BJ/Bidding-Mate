@@ -1,7 +1,7 @@
 # Bidding-Mate: 입찰 공고 분석 AI 에이전트
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Python-3.11-blue?logo=python"/>
+  <img src="https://img.shields.io/badge/Python-3.12-blue?logo=python"/>
   <img src="https://img.shields.io/badge/LangChain-v0.1-green?logo=langchain"/>
   <img src="https://img.shields.io/badge/LangGraph-Agent-orange"/>
   <img src="https://img.shields.io/badge/Streamlit-App-red?logo=streamlit"/>
@@ -95,7 +95,7 @@ OPENAI_API_KEY=sk-proj-xxxxxxxx...
 ```bash
 docker-compose up --build
 ```
-참고: 처음 실행 시에는 Vector DB가 생성되지 않아 웹 페이지에 에러가 표시될 수 있습니다. 이는 정상적인 현상이므로 당황하지 말고 **다음 단계(DB 생성)**를 진행해 주세요.
+참고: 처음 실행 시에는 Vector DB가 생성되지 않아 웹 페이지에 에러가 표시될 수 있습니다. 이는 정상적인 현상이므로 당황하지 말고 다음 단계(DB 생성)를 진행해 주세요.
 
 #### 5. Vector DB 생성
 **새로운 터미널 창**을 열고, 실행 중인 도커 컨테이너 내부에서 DB 생성 스크립트를 작동시킵니다.
@@ -123,9 +123,9 @@ docker-compose exec app python db_maker.py
 팀원별 개발 과정과 회고가 담긴 협업 일지입니다.
 
 | 이름 | 협업 일지 링크 |
-| :--- | :--- | :--- |
-| [오병주] | [블로그/노션 링크](https://www.notion.so/1-15-2df657925cde80a6b81fd8ab6c1fcc47?source=copy_link) |
-| [김소희] | [블로그/노션 링크](https://team1-blog-url.com) |
-| [손성경] | [블로그/노션 링크](https://team1-blog-url.com) |
-| [신아름] | [블로그/노션 링크](https://team3-blog-url.com) |
-| [최지혁] | [블로그/노션 링크](https://team3-blog-url.com) |
+| :--- | :--- |
+| **오병주** | [🔗 블로그/노션 링크](https://www.notion.so/1-15-2df657925cde80a6b81fd8ab6c1fcc47?source=copy_link) |
+| **김소희** | [🔗 블로그/노션 링크](https://team1-blog-url.com) |
+| **손성경** | [🔗 블로그/노션 링크](https://team1-blog-url.com) |
+| **신아름** | [🔗 블로그/노션 링크](https://team3-blog-url.com) |
+| **최지혁** | [🔗 블로그/노션 링크](https://team3-blog-url.com) |
